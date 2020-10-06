@@ -1,7 +1,7 @@
 # quizgen
 
-- Thie is the Restr API for Quiz Generator for Missionary Church Bible Quizzing
-- It can be found at
+- Thie is the Rest API for Quiz Generator for Missionary Church Bible Quizzing
+- It can be found at `https://git.heroku.com/mc-quiz-gen.git`
 
 ## /api/auth
 
