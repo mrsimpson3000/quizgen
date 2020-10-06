@@ -30,8 +30,35 @@ router.post("/register", (req, res) => {
   }
 });
 
-// Login as a user
+// Login as a user. Use role in browser to show certain fields.
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  if (isLoginValid(req.body)) {
+    Users.findBy({ username })
+      .then(([user]) => {
+        // compare the password to the hash stored in the db
+        if (user && bcryptjs.compareSync(password, user.password)) {
+          // produce (sign) and send the token
+          const token = generateToken(user);
 
-// Login as a director
+          res.status(200).json({
+            message: "Successful login.",
+            token,
+            userId: user.id,
+          });
+        } else {
+          res.status(401).json({ message: "Invalid credentials " });
+        }
+      })
+      .catch((err) => {
+        res.status({ message: err.message });
+      });
+  } else {
+    status(400).json({
+      message:
+        "Please provide all the proper credentials. Be sure that they are alphanumeric.",
+    });
+  }
+});
 
-// Login as an administrator ??? Is this one really necessary or could the code be in the web app?
+module.exports = router;
