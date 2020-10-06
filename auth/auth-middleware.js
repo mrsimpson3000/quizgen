@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
-const configvars = require("../config/vars");
+const configVars = require("../config/vars");
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
-  jwt.verify(token, configvars.jwtSecret, (err, decodedToken) => {
+  jwt.verify(token, configVars.jwtSecret, (err, decodedToken) => {
     if (token) {
       if (err) {
         // The token is not valid
