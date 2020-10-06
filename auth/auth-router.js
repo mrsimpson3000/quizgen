@@ -5,6 +5,7 @@ const router = require("express").Router();
 const Users = require("./auth-model");
 const { isUserValid, isLoginValid, generateToken } = require("./auth-service");
 const configVars = require("../config/vars");
+const Questions = require("../questions/questions-model");
 
 // Register a new user
 router.post("/register", (req, res) => {
@@ -59,6 +60,17 @@ router.post("/login", (req, res) => {
         "Please provide all the proper credentials. Be sure that they are alphanumeric.",
     });
   }
+});
+
+// Get published questions only
+router.get("/questions", (req, res) => {
+  Questions.findBy(req.body)
+    .then((questions) => {
+      res.status(200).json(questions);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
 });
 
 module.exports = router;
