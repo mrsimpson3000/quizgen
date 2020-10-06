@@ -9,12 +9,10 @@ function find() {
   return db("questions").orderBy("id");
 }
 
-// function findBy(filter) {
-//   return db("questions").where((builder) => {
-//     builder.whereIn(filter).orderBy("id");
-//   });
-// }
-
 function findBy(filter) {
-  return db("questions").whereIn(filter).orderBy("id");
+  return db("questions").where(filter).where("series", 0).orderBy("id");
 }
+
+// function findBy(filter) {
+//   return db("questions").whereIn(filter).orderBy("id");
+// }
