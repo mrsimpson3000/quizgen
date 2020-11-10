@@ -1,7 +1,7 @@
 # quizgen
 
 - Thie is the Rest API for Quiz Generator for Missionary Church Bible Quizzing
-- It can be found at `https://git.heroku.com/mc-quiz-gen.git`
+- It can be found at `https://mc-quiz-gen.herokuapp.com/`
 
 ## /api/auth
 
@@ -25,3 +25,5 @@ These routes are for access to published and unpublished questions.
 
 - **[GET]** to `api/questions`: returns an array of objects each containing all the question data.
 - **[GET]** to `api/questions/questions`: returns a list of questions based on the parameters sent. Pass in the following data as the `body` of the request: `{ book: 1, chapter: 1, series: 0, type: 'g' }`
+- **[GET]** to `api/questions/questions/count`: returns the count of all the records in the database.
+- **[DELETE]** to `api/questions/`: removes all questions from the database.
