@@ -9,7 +9,7 @@ These are the only routes that do not require a token. You must register and the
 
 - **[POST]** to `/api/auth/register`: returns a message. Pass in the following credentials as the `body` of the request: `{ username: 'myusername', password: 'mypassword', firstname: 'myfirstname', lastname: 'mylastname', question: 'myquestion', answer: 'myanswer', email: 'myemail'}`
 - **[POST]** to `/api/auth/login`: returns a message, a Json Web Token (JWT) that is good for 1 day, and the user's id. Pass in the following credentials as the `body` of the request: `{ username: 'myusername, password: 'mypassword' }`
-- **[GET]** to `/api/auth/questions`: returns a list of questions based on the paramaters sent. Pass in the following data as the `body` of the request: `{ book: 1, chapter: 1, type: 'g' }`
+- **[GET]** to `/api/auth/questions`: returns a list of published questions only based on the paramaters sent. Pass in the following data as the `body` of the request: `{ book: 1, chapter: 1, type: 'g' }`
 
 ## /api/users
 
@@ -25,5 +25,7 @@ These routes are for access to published and unpublished questions.
 
 - **[GET]** to `api/questions`: returns an array of objects each containing all the question data.
 - **[GET]** to `api/questions/questions`: returns a list of questions based on the parameters sent. Pass in the following data as the `body` of the request: `{ book: 1, chapter: 1, series: 0, type: 'g' }`
-- **[GET]** to `api/questions/questions/count`: returns the count of all the records in the database.
+- **[GET]** to `api/questions/count`: returns the count of all the records in the database.
 - **[DELETE]** to `api/questions/`: removes all questions from the database.
+- **[POST]** to `api/questions/`: adds all the questions to the database based on the `body` of the request: `{filepath: 'C:/yourfilepath'}`
+- **[PUT]** to `api/questions/:id`: updates the question using the `id` passed as part of the URL. Send the question object with the updated information as the `body` of the request.

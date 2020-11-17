@@ -3,10 +3,7 @@ const router = require("express").Router();
 
 const Questions = require("./questions-model");
 
-const excelToJson = require('convert-excel-to-json')
-
-const filepath = 'C:/Users/mrsim/Google Drive/MT Questions/MC Matthew (BSB) rev2 Chad.xlsx'
-
+const { convertExcel } = require("./questions-service")
 
 // GET all questions (published and unpublished)
 router.get("/", (req, res) => {
@@ -19,6 +16,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// GET questions based on params sent
 router.get("/questions", (req, res) => {
   Questions.findBy(req.body)
     .then((questions) => {
@@ -29,6 +27,7 @@ router.get("/questions", (req, res) => {
     });
 });
 
+// DELETE all questions
 router.delete("/", (req, res) => {
   Questions.removeAll()
     .then((deleted) => {
@@ -40,7 +39,8 @@ router.delete("/", (req, res) => {
     })
 })
 
-router.get("/questions/count", (req, res) => {
+// GET the total number of questions
+router.get("/count", (req, res) => {
   Questions.count()
     .then((count) => {
       res.status(200).json({ message: count})
@@ -50,34 +50,31 @@ router.get("/questions/count", (req, res) => {
     })
 })
 
+// POST all the questions to the database
 router.post("/", (req, res) => {
-  const result = excelToJson({
-    sourceFile: filepath,
-    header: {
-      rows: 1
-    },
-    sheets: ['Sheet1'],
-    columnToKey: {
-      // A: 'id',
-      B: 'book',
-      C: 'chapter',
-      D: 'verse',
-      E: 'series',
-      F: 'type',
-      G: 'question',
-      H: 'answer'
-    }
-  }) 
-    // res.status(200).json(result.Sheet1)
-    Questions.addQuestions(result.Sheet1)
-    .then((result) => {
-      res.status(200).json({ message: `Successfully added the questions.`})
+    const data = convertExcel(req.body.filepath)
+      Questions.addQuestions(data)
+      .then((data) => {
+        // console.log(data)
+        res.status(200).json({ message: `There are now ${data.rowCount} questions in the database.` })
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message })
+      })
+})
+
+// PUT a question update in the database
+router.put("/:id", (req, res) => {
+  const { id } = req.params
+  const changes = req.body
+
+  Questions.update(changes, id)
+    .then((updatedQuestion) => {
+      res.status(200).json(updatedQuestion)
     })
     .catch((err) => {
-      res.status(500).json({ message: err.message })
+      res.status(500).json({ error: err.message })
     })
-})  
-
-
+})
 
 module.exports = router;
