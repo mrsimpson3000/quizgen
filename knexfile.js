@@ -4,11 +4,13 @@ const { pgConnection } = require("./config/vars");
 
 module.exports = {
   development: {
-    client: "sqlite3",
+    client: "pg",
     connection: {
-      filename: "./database/quizgen.db3",
+      host: "127.0.0.1",
+      user: "postgres",
+      password: "s115115744"
+      // database: "quizgen"
     },
-    useNullAsDefault: true,
     migrations: {
       directory: "./database/migrations",
     },

@@ -3,9 +3,11 @@ const db = require("../database/dbConfig");
 module.exports = {
   find,
   findBy,
+  findById,
   removeAll,
   count,
   addQuestions,
+  update,
 };
 
 function find() {
@@ -14,6 +16,10 @@ function find() {
 
 function findBy(filter) {
   return db("questions").where(filter).where("series", 0).orderBy("id");
+}
+
+function findById(id) {
+  return db("questions").where({ id }).select("id", "question", "answer").first()
 }
 
 function count() {
@@ -28,6 +34,8 @@ function addQuestions(data) {
   return db("questions").insert(data)
 }
 
-// function findBy(filter) {
-//   return db("questions").whereIn(filter).orderBy("id");
-// }
+function update(changes, id) {
+  return db("questions").where({ id }).update(changes).then((id) => {
+    return findById(id)
+  })
+}
