@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
 const configVars = require("../config/vars");
+const nodemailer = require("nodemailer");
 
 module.exports = {
   isUserValid,
   isLoginValid,
   generateToken,
+  mail,
 };
 
 function isUserValid(user) {
@@ -46,4 +48,25 @@ function generateToken(user) {
   };
 
   return jwt.sign(payload, configVars.jwtSecret, options);
+}
+
+async function mail(data) {
+  let transporter = nodemailer.createTransport({
+    host: configVars.mailHost,
+    port: configVars.mailPort,
+    secure: configVars.mailSecure,
+    auth: {
+      user: configVars.mailUser,
+      pass: configVars.mailPass,
+    }
+  })
+
+  let info = await transporter.sendMail({
+    from: configVars.formFrom,
+    to: configVars.formTo,
+    replyTo: `${data.email}`,
+    subject: "MCBibleQuiz Form Submission",
+    text: `${data.name} sent a message saying:\n\n${data.message}`
+    })
+    return info
 }

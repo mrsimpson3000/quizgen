@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const router = require("express").Router();
 
 const Users = require("./auth-model");
-const { isUserValid, isLoginValid, generateToken } = require("./auth-service");
+const { isUserValid, isLoginValid, generateToken, mail } = require("./auth-service");
 const configVars = require("../config/vars");
 const Questions = require("../questions/questions-model");
 
@@ -62,7 +62,7 @@ router.post("/login", (req, res) => {
   }
 });
 
-// Get published questions only
+// GET published questions only
 router.get("/questions", (req, res) => {
   Questions.findBy(req.body)
     .then((questions) => {
@@ -72,5 +72,16 @@ router.get("/questions", (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
+
+// Send email from form input
+router.post("/form", (req, res) => {
+    mail(req.body)
+    .then((mail) => {
+      res.status(200).json(mail.response)
+    })
+    .catch((err) => {
+      res.status(500).json(err.message)
+    })
+})
 
 module.exports = router;
