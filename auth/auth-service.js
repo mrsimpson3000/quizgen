@@ -51,6 +51,12 @@ function generateToken(user) {
 }
 
 async function mail(data) {
+  if (configVars.mailSecure === "true" || configVars.mailSecure === true) {
+    configVars.mailSecure = true
+  } else {
+    configVars.mailSecure = false
+  }
+  
   let transporter = nodemailer.createTransport({
     host: configVars.mailHost,
     port: configVars.mailPort,
