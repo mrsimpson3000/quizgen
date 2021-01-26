@@ -72,7 +72,7 @@ async function mail(data) {
     to: configVars.formTo,
     replyTo: `${data.email}`,
     subject: "MCBibleQuiz Form Submission",
-    text: `${data.fname} ${data.lname} sent a message saying:\n\n If included my number is ${data.phone}\n\n${data.message}`
+    text: `${data.fname} ${data.lname} sent a message.\nIf included my number is: ${data.phone}\n\n${data.message}`
     })
     return info
 }
