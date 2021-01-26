@@ -59,11 +59,11 @@ async function mail(data) {
     configVars.mailSecure = false
   }
 
-  if (data.phone && data.message) {
+  if (data.phone === true && data.message === true) {
     message = `${data.fname} ${data.lname} sent a message.\nMy number is: ${data.phone}\n\n${data.message}`
-  } else if (!data.phone && data.message) {
+  } else if (data.phone === false && data.message === true) {
     message = `${data.fname} ${data.lname} sent a message. \n\n${data.message}`
-  } else if (!data.phone && !data.message) {
+  } else if (data.phone === false && data.message === false) {
     message = `${data.fname} ${data.lname} sent a form submission. No message or phone number included.`
   } else {
     message = `${data.fname} ${data.lname} sent a form submission. No message incluided.\nTheir number is ${data.phone}`
