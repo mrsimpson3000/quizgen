@@ -51,22 +51,10 @@ function generateToken(user) {
 }
 
 async function mail(data) {
-  const message
-
   if (configVars.mailSecure === "true" || configVars.mailSecure === true) {
     configVars.mailSecure = true
   } else {
     configVars.mailSecure = false
-  }
-
-  if (data.phone === true && data.message === true) {
-    message = `${data.fname} ${data.lname} sent a message.\nMy number is: ${data.phone}\n\n${data.message}`
-  } else if (data.phone === false && data.message === true) {
-    message = `${data.fname} ${data.lname} sent a message. \n\n${data.message}`
-  } else if (data.phone === false && data.message === false) {
-    message = `${data.fname} ${data.lname} sent a form submission. No message or phone number included.`
-  } else {
-    message = `${data.fname} ${data.lname} sent a form submission. No message incluided.\nTheir number is ${data.phone}`
   }
   
   let transporter = nodemailer.createTransport({
@@ -84,7 +72,7 @@ async function mail(data) {
     to: configVars.formTo,
     replyTo: `${data.email}`,
     subject: "MCBibleQuiz Form Submission",
-    text: `${message}`
+    text: `${data.fname} ${data.lname} sent a message.\nIf included my number is: ${data.phone}\n\n${data.message}`
     })
     return info
 }
