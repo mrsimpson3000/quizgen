@@ -8,9 +8,9 @@
 These are the only routes that do not require a token. You must register and then login and use the token to go to any other route.
 
 - **[POST]** to `/api/auth/register`: returns a message. Pass in the following credentials as the `body` of the request: `{ username: 'myusername', password: 'mypassword', firstname: 'myfirstname', lastname: 'mylastname', question: 'myquestion', answer: 'myanswer', email: 'myemail'}`
-- **[POST]** to `/api/auth/login`: returns a message, a Json Web Token (JWT) that is good for 1 day, and the user's id. Pass in the following credentials as the `body` of the request: `{ username: 'myusername, password: 'mypassword' }`
+- **[POST]** to `/api/auth/login`: returns a message, a Json Web Token (JWT) that is good for 1 day, and the user's id. Pass in the following credentials as the `body` of the request: `{ username: 'myusername', password: 'mypassword' }`
 - **[GET]** to `/api/auth/questions`: returns a list of published questions only based on the paramaters sent. Pass in the following data as the `body` of the request: `{ book: 1, chapter: 1, type: 'g' }`
-- **[POST]** to `/api/auth/form`: returns a message. Pass in the following credentials as the `body` of the request: `{ }`
+- **[POST]** to `/api/auth/form`: returns a message. Pass in the following credentials as the `body` of the request: `{ fname: 'firstname', lname: 'lastname', email: 'email address', phone: 'phone number', message: 'message' }`
 
 ## /api/users
 
